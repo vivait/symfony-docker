@@ -29,6 +29,13 @@ services:
         depends_on:
             - app
 
+    composer:
+        restart: 'no'
+        image: composer/composer:php7
+        command: install
+        volumes_from:
+            - app
+
     db:
         container_name: symfony_db_1
         image: mysql
