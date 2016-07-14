@@ -1,5 +1,6 @@
 {
-    "name": "brunty/symfony.docker",
+    "name": "brunty/symfony-docker",
+    "description": "A symfony app that ships with docker containers for nginx, php7-fpm & mysql.",
     "license": "proprietary",
     "type": "project",
     "autoload": {

@@ -49,12 +49,3 @@ services:
         image: busybox:latest
         volumes:
             - ./var/lib/mysql:/var/lib/mysql
-
-    selenium:
-        container_name: symfony_selenium_1
-        image: selenium/standalone-chrome-debug
-        # this was a fix for this container failing to start and stay up
-        command: bash -c "sed -e '19a\echo no_proxy >> asseluser' /opt/bin/entry_point.sh | bash"
-        ports:
-            - 4444:4444
-            - 5900:5900
