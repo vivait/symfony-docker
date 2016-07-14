@@ -1,0 +1,60 @@
+version: '2'
+services:
+    app:
+        container_name: symfony_app_1
+        image: busybox:latest
+        volumes:
+            - .:/app
+
+    web:
+        container_name: symfony_web_1
+        build: docker/nginx
+        ports:
+            - 80:80
+        links:
+            - php
+        volumes_from:
+            - app
+        depends_on:
+            - db
+            - php
+
+    php:
+        container_name: symfony_php_1
+        build: docker/php-fpm
+        volumes_from:
+            - app
+        links:
+            - db
+        depends_on:
+            - app
+
+    db:
+        container_name: symfony_db_1
+        image: mysql
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: symfony
+            MYSQL_USER: symfony
+            MYSQL_PASSWORD: symfony
+        volumes_from:
+            - db-data
+        depends_on:
+            - db-data
+
+    db-data:
+        container_name: symfony_dbdata_1
+        image: busybox:latest
+        volumes:
+            - ./var/lib/mysql:/var/lib/mysql
+
+    selenium:
+        container_name: symfony_selenium_1
+        image: selenium/standalone-chrome-debug
+        # this was a fix for this container failing to start and stay up
+        command: bash -c "sed -e '19a\echo no_proxy >> asseluser' /opt/bin/entry_point.sh | bash"
+        ports:
+            - 4444:4444
+            - 5900:5900
