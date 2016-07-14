@@ -3,12 +3,14 @@ services:
     app:
         container_name: symfony_app_1
         image: busybox:latest
+        working_dir: /app
         volumes:
             - .:/app
 
     web:
         container_name: symfony_web_1
         build: docker/nginx
+        working_dir: /app
         ports:
             - 80:80
         links:
@@ -22,6 +24,7 @@ services:
     php:
         container_name: symfony_php_1
         build: docker/php-fpm
+        working_dir: /app
         volumes_from:
             - app
         links:
@@ -33,6 +36,7 @@ services:
         restart: 'no'
         image: composer/composer:php7
         command: install
+        working_dir: /app
         volumes_from:
             - app
 
