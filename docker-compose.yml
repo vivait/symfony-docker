@@ -39,11 +39,11 @@ services:
             MYSQL_USER: symfony
             MYSQL_PASSWORD: symfony
         volumes_from:
-            - db-data
+            - db_data
         depends_on:
-            - db-data
+            - db_data
 
-    db-data:
+    db_data:
         image: busybox:latest
         volumes:
             - ./var/lib/mysql:/var/lib/mysql
