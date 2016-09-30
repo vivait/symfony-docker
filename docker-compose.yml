@@ -1,14 +1,12 @@
 version: '2'
 services:
     app:
-        container_name: symfony_app_1
         image: busybox:latest
         working_dir: /app
         volumes:
             - .:/app
 
     web:
-        container_name: symfony_web_1
         build: docker/nginx
         working_dir: /app
         ports:
@@ -22,7 +20,6 @@ services:
             - php
 
     php:
-        container_name: symfony_php_1
         build: docker/php-fpm
         working_dir: /app
         volumes_from:
@@ -33,7 +30,6 @@ services:
             - app
 
     db:
-        container_name: symfony_db_1
         image: mysql
         ports:
             - 3306:3306
@@ -48,7 +44,6 @@ services:
             - db-data
 
     db-data:
-        container_name: symfony_dbdata_1
         image: busybox:latest
         volumes:
             - ./var/lib/mysql:/var/lib/mysql
